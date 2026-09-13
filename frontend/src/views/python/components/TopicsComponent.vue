@@ -1,15 +1,16 @@
 <template>
     <div class="container my-2 p-2">
         
-        <div v-for="topic in topics" :key="topic.id">
+        <div class="topics-grid">
+            <div v-for="topic in topics" :key="topic.id">
             <div class="card" style="width: 18rem;">
                 <router-link class="topic-link" :to="`/python/topic-summary/${topic.id}`">
-
-                    <img src="../../../assets/regex.jpg" class="card-img-top" alt="...">
+                    <img src="../../../assets/oop.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">{{ topic.title }}</p>
                     </div>
                 </router-link>
+            </div>
             </div>
         </div>
     </div>
@@ -58,5 +59,11 @@ h3 {
 
 .topic-link {
     font-size: 1.25rem;
+}
+
+.topics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 </style>

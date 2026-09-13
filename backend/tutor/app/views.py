@@ -12,7 +12,7 @@ from .serializers import (
 	TopicDetailSerializer,
 	TopicSerializer,
 )
-from .utils.ask import TutorGraph
+from .utils.chat import TutorGraph
 from .utils.quiz import (get_hints, 
 						evaulate_response)
 from .utils.open_ai import llm
@@ -62,7 +62,6 @@ class ChatQueryView(APIView):
 
 
 class CodingProblemListView(APIView):
-	permission_classes = (IsAdminUser,)
 
 	def get(self, request, subtopic_id):
 		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)

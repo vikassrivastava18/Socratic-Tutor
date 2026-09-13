@@ -23,7 +23,7 @@ def create_coding_problems(content: str) -> CodeListSchema:
     print(is_valid_email('malan.harvard.edu'))
     print(is_valid_email('malan@harvard'))
 
-    Answer: Invalid\n Valid
+    Answer: False\nTrue
     """
     structured_llm = llm.with_structured_output(CodeListSchema)
     messages = [
@@ -55,3 +55,7 @@ def create_quizzes(content: str) -> QuizSchema:
 
     response = structured_llm.invoke(messages)
     return cast(QuizSchema, response)
+
+
+def create_subtopic_summary():
+    pass

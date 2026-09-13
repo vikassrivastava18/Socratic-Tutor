@@ -19,7 +19,10 @@ export async function runPython(code) {
   
   const wrappedCode = `
   import sys
+  import warnings
   from io import StringIO
+
+  warnings.filterwarnings("ignore")
 
   __stdout = sys.stdout
   __stderr = sys.stderr

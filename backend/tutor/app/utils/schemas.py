@@ -6,15 +6,18 @@ class MCQ(BaseModel):
     options: list[str]
     answer: str
     explanation: str
+    hint: str
 
 class TrueFalse(BaseModel):
     question: str
     answer: bool
     explanation: str
+    hint: str
 
 class FillBlank(BaseModel):
     quiz: str
     answer: str
+    hint: str
 
 class QuizSchema(BaseModel):
     mcq: list[MCQ]
@@ -25,6 +28,7 @@ class CodeSchema(BaseModel):
     problem: str
     code: str
     answer: str
+    hint: str
 
 class CodeListSchema(BaseModel):
     codes: list[CodeSchema]

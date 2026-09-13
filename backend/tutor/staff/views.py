@@ -10,7 +10,7 @@ from .utils import create_coding_problems, create_quizzes
 
 
 class CodingProblemCreateView(APIView):
-	permission_classes = (IsAdminUser,)
+	# permission_classes = (IsAdminUser,)
 
 	def post(self, request, subtopic_id):
 		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
@@ -20,7 +20,7 @@ class CodingProblemCreateView(APIView):
 
 
 class QuizCreateView(APIView):
-	permission_classes = (IsAdminUser,)
+	# permission_classes = (IsAdminUser,)
 	
 	def post(self, request, subtopic_id):
 		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
