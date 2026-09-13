@@ -179,16 +179,20 @@ def create_coding_problems(content: str) -> CodeListSchema:
         Content: {content}
 
         Sample: 
-        Question: Write a Python function to validate if an email address is valid. An email is considered valid if it contains an '@' symbol. Use the `re` module to implement this.
-        Code: import re
+        Question: Create a class called `Student` that has attributes `name` and `house`. Implement a method `get_info` that returns a string in the format 'Name: <name>, House: <house>'.
 
-        def is_valid_email(email):
-            raise NotImplementedError
+        class Student:
+            def __init__(self, name, house):
+                self.name = name
+                self.house = house
 
-        print(is_valid_email('malan.harvard.edu'))
-        print(is_valid_email('malan@harvard'))
+            def get_info(self):
+                return f'Name: "", House: "'
 
-        Answer: False\nTrue
+        student = Student('John', 'Gryffindor')
+        print(student.get_info())
+
+        Answer: Name: John, House: Gryffindor
     """
     structured_llm = llm.with_structured_output(CodeListSchema)
     messages = [{"role": "system", "content": prompt}]
@@ -200,7 +204,7 @@ def create_coding_problems(content: str) -> CodeListSchema:
 def create_quizzes(content: str) -> QuizSchema:
     prompt = f"""
     You are a quiz master. Use the content of a chapter to create quizzes that help students in their study.
-    For MCQ, only one option should be correct.
+    For MCQ, only one option should be correct. Create at least 5 MCQ and 5 True/False quizzes.
     Return the response in the format specified.    
 
     Content: {content}

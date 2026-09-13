@@ -30,6 +30,18 @@ class TopicDetailView(generics.RetrieveAPIView):
 	queryset = Topic.objects.all()
 	serializer_class = TopicDetailSerializer
 
+	def retrieve(self, request, *args, **kwargs):
+		instance = self.get_object()
+		data = self.get_serializer(instance).data
+		first_subtopic = (
+			SubTopic.objects
+			.filter(topic=instance)
+			.order_by('pk')
+			.first()
+		)
+		data['first_subtopic_id'] = first_subtopic.pk if first_subtopic else None
+		return Response(data)
+
 
 class SubTopicDetailView(generics.RetrieveAPIView):
 	queryset = SubTopic.objects.all()

@@ -3,9 +3,13 @@
         
         <div class="topics-grid">
             <div v-for="topic in topics" :key="topic.id">
-            <div class="card" style="width: 18rem;">
+            <div class="card me-4" style="width: 18rem; height: 22rem;">
                 <router-link class="topic-link" :to="`/python/topic-summary/${topic.id}`">
-                    <img src="../../../assets/oop.png" class="card-img-top" alt="...">
+                    <img
+                    :src="require('../../../assets/' + topic.img_name)"
+                    class="card-img-top"
+                    :alt="topic.img_name"
+                    />
                     <div class="card-body">
                         <p class="card-text">{{ topic.title }}</p>
                     </div>
