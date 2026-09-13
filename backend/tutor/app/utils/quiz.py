@@ -8,42 +8,6 @@ from .open_ai import llm
 
 load_dotenv(override=True)
 
-
-def get_hints(results):
-    sections = []
-    for category, category_results in results.items():
-        category_hints = []
-        for item in category_results:
-            if item.get('correct'):
-                continue
-            question = item.get('question') or ''
-            expected_answer = item.get('expected_answer')
-            submitted_answer = item.get('submitted_answer')
-            prompt = (
-                'You are a helpful tutor. Provide a short hint for a learner who answered a quiz question incorrectly. '
-                f'Question: {question}\n'
-                f'Submitted answer: {submitted_answer}\n'
-                f'Expected answer: {expected_answer}\n'
-                'Give only a brief hint without revealing the final answer directly.'
-            )
-            try:
-                hint = llm.invoke(prompt)
-                if hasattr(hint, 'content'):
-                    hint = hint.content
-                if isinstance(hint, str):
-                    hint_text = hint.strip()
-                else:
-                    hint_text = str(hint).strip()
-            except Exception:
-                hint_text = 'Review the key concept from the lesson and try again.'
-            category_hints.append(f'- **{question}**: {hint_text}')
-
-        if category_hints:
-            category_title = category.replace('_', ' ').title()
-            sections.append(f'### {category_title}\n' + '\n'.join(category_hints))
-
-    return '\n\n'.join(sections) if sections else 'No hints available.'
-
 		
 def answers_match(submitted_answer, expected_answer):
     if isinstance(expected_answer, bool):

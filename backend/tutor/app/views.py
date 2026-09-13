@@ -12,8 +12,7 @@ from .serializers import (
 	TopicSerializer,
 )
 from .utils.chat import TutorGraph
-from .utils.quiz import (get_hints, 
-						evaulate_response)
+from .utils.quiz import evaulate_response
 from .utils.open_ai import llm
 
 
@@ -95,25 +94,42 @@ class QuizListView(APIView):
 	
 
 class QuizEvaluationView(APIView):
-	def post(self, request, subtopic_id):
-		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
-		answers = request.data.get('answers')
-		if not isinstance(answers, dict):
-			return Response(
-				{'answers': 'This field must be an object.'},
-				status=status.HTTP_400_BAD_REQUEST,
-			)
+    def post(self, request, subtopic_id):
+        subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
+        answers = request.data.get('answers')
 
-		results, score, total = evaulate_response(subtopic, answers)
-		response = {
-			'score': score,
-			'total': total,
-			'percentage': round(score / total * 100, 2) if total else 0,
-			'results': results,
-		} 
-		if not round(score / total * 100, 2) > 70:
-			hints = get_hints(results)
-			response['hints'] = hints
-			return Response(response)
-		
-		return Response(response)
+        if not isinstance(answers, dict):
+            return Response(
+                {'answers': 'This field must be an object.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        results, score, total = evaulate_response(subtopic, answers)
+        percentage = round(score / total * 100, 2) if total else 0
+
+        response = {
+            'score': score,
+            'total': total,
+            'percentage': percentage,
+            'results': results,
+        }
+
+        if percentage < 70:
+            hints = []
+
+            def collect_hints(value):
+                if isinstance(value, dict):
+                    if value.get('hint'):
+                        hints.append(value['hint'])
+
+                    for nested_value in value.values():
+                        collect_hints(nested_value)
+
+                elif isinstance(value, list):
+                    for item in value:
+                        collect_hints(item)
+
+            collect_hints(subtopic.quizzes or {})
+            response['hints'] = ''.join(f'<p>{hint}</p>' for hint in hints)
+
+        return Response(response)

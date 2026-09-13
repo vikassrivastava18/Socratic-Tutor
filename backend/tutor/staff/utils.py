@@ -48,7 +48,7 @@ def create_coding_problems(content: str) -> CodeListSchema:
     prompt = f"""
         You are a code chef. Use the content to create 5 coding problems. 
         Keep the problem level to be easy for first 3 and medium for remaining two.
-        Use the content provided only.
+        Use the content provided only. Question must be in markdown syntax.
 
         Content: {content}
 
