@@ -8,7 +8,8 @@
 
     <div class="d-flex gap-2 mt-auto mb-3">
       
-       <router-link :to="{ name: 'subtopic-summary', params: { id: topic.first_subtopic_id } }">
+       <router-link 
+        :to="{ name: 'subtopic-summary', params: { id: topic.first_subtopic_id } }">
         <button class="btn btn-primary">
           <img src="../../../assets/socrates_blink_less.gif" width="25" alt="">
           Start Session 

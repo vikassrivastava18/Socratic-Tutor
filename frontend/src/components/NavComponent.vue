@@ -4,7 +4,9 @@
             <router-link to="/" class="nav-link text_white px-4 py-1 me-2">
               HOME
             </router-link>
-             <router-link to="/python/topics" class="nav-link text_white px-4 py-1 me-2" :class="{ 'python-active': $route.fullPath.includes('python') }">
+             <router-link 
+                :to="{ name: 'topics'}"
+                class="nav-link text_white px-4 py-1 me-2" :class="{ 'python-active': $route.fullPath.includes('python') }">
                 PYTHON
             </router-link>         
         </div>

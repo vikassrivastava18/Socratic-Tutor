@@ -22,7 +22,7 @@
             <router-link
               v-if="answerMatches && !hasNextProblem && nextTopicId"
               class="btn btn-success btn-sm"
-              :to="`/python/subtopic/${nextTopicId}/summary`"
+              :to="{ name: 'subtopic-summary', params: { id: nextTopicId } }"
             >
               Next topic
             </router-link>

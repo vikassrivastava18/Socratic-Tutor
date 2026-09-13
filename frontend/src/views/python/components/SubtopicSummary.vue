@@ -3,7 +3,7 @@
     <h3 class="p-2">{{ topic.title }} 
       <router-link class="btn btn-danger" 
         id="continueBtn"
-        :to="`/python/subtopic/${route.params.id}/quiz`">
+        :to="{ name: 'subtopic-quiz', params: { id: route.params.id } }">
         Continue to quiz
       </router-link>
     </h3>
