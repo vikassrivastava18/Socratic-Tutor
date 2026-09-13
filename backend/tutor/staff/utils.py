@@ -36,133 +36,7 @@ def create_subtopics(summary: str):
         markdown syntax.
 
         summary {summary}
-
-        sample output:
-            - title: What Are Regular Expressions
-            - summary: #### What Are Regular Expressions?
-
-        **Regular expressions (regex)** are patterns used to search, validate, and extract information from text.
-
-        Python provides the `re` module for working with regex. One of its most commonly used functions is `re.search()`:
-
-        ```python
-        import re
-
-        if re.search("@", email):
-            print("Valid")
-        ```
-
-        `re.search(pattern, string)` looks for the specified pattern anywhere in the string.
-
-        ---
-
-        #### Basic Regex Symbols
-
-        Regex uses special symbols to describe patterns.
-
-        | Symbol  | Meaning                         | Example  |
-        | ------- | ------------------------------- | -------- |
-        | `.`     | Any character except newline    | `a.c`    |
-        | `*`     | Zero or more repetitions        | `ab*`    |
-        | `+`     | One or more repetitions         | `ab+`    |
-        | `?`     | Zero or one repetition          | `https?` |
-
-
-        For example:
-
-        ```text
-        .+@.+
-        ```
-
-        means:
-
-        * `.+` → one or more characters
-        * `@` → a literal `@`
-        * `.+` → one or more characters
-
-        So it can match something like:
-
-        ```text
-        malan@harvard
-        ```
-
-        ---
-
-        #### Escaping Special Characters
-
-        Some characters have a special meaning in regex. For example, `.` means **any character**.
-
-        To match an actual period, escape it with `\`:
-
-        ```text
-        \.
-        ```
-
-        Therefore:
-
-        ```python
-        r".+@.+\.edu"
-        ```
-
-        requires a literal `.edu`.
-
-        Without the escape:
-
-        ```text
-        .+@.+.edu
-        ```
-
-        the period could match any character.
-
-        ---
-
-        #### Raw Strings
-
-        Python raw strings, written with an `r` prefix, prevent Python from interpreting backslashes as escape sequences.
-
-        ```python
-        r"\.edu"
-        ```
-
-        This is especially useful for regex because regex patterns frequently contain backslashes such as `\.` and `\d`.
-
-        ---
-
-        #### Anchors: `^` and `$`
-
-        By default, `re.search()` can find a pattern anywhere in a string.
-
-        Two special symbols let us control where the match occurs:
-
-        ```text
-        ^ → beginning of the string
-        $ → end of the string
-        ```
-
-        For example:
-
-        ```python
-        r"^.+@.+\.edu$"
-        ```
-
-        requires the **entire string** to follow the pattern.
-
-        It can match:
-
-        ```text
-        malan@harvard.edu
-        ```
-
-        but not:
-
-        ```text
-        My email is malan@harvard.edu
-        ```
-
-        because the second string contains additional text before the pattern.
-
-        The key idea is that regex allows us to combine **literal characters, special symbols, quantifiers, escapes, and anchors** to describe precise patterns in text. 
-    """
+        """
     structures_llm = llm.with_structured_output(SubTopicsSchema)
     messages = [{"role": "system", "content": prompt}]
 
@@ -178,7 +52,7 @@ def create_coding_problems(content: str) -> CodeListSchema:
 
         Content: {content}
 
-        Sample: 
+        Sample (follow strictly!): 
         Question: Create a class called `Student` that has attributes `name` and `house`. Implement a method `get_info` that returns a string in the format 'Name: <name>, House: <house>'.
 
         class Student:
@@ -187,7 +61,7 @@ def create_coding_problems(content: str) -> CodeListSchema:
                 self.house = house
 
             def get_info(self):
-                return f'Name: "", House: "'
+                raise NotImplementedError
 
         student = Student('John', 'Gryffindor')
         print(student.get_info())
