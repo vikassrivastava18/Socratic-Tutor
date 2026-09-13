@@ -1,12 +1,11 @@
 from rest_framework import serializers
-
 from .models import SubTopic, Topic
 
 
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
-        fields = ('id', 'title')
+        fields = ('id', 'title', 'img_name')
 
 
 class TopicDetailSerializer(serializers.ModelSerializer):

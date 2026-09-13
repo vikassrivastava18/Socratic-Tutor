@@ -22,7 +22,6 @@ class FillBlank(BaseModel):
 class QuizSchema(BaseModel):
     mcq: list[MCQ]
     true_false: list[TrueFalse]
-    fill_blank: list[FillBlank]
 
 class CodeSchema(BaseModel):
     problem: str
@@ -32,3 +31,11 @@ class CodeSchema(BaseModel):
 
 class CodeListSchema(BaseModel):
     codes: list[CodeSchema]
+
+
+class SubTopicSchema(BaseModel):
+    title: str
+    summary: str
+
+class SubTopicsSchema(BaseModel):
+    subtopics: list[SubTopicSchema]

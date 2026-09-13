@@ -12,7 +12,9 @@ class Course(models.Model):
 class Topic(models.Model):
     title = models.CharField(max_length=128)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    content = models.TextField()
     summary = models.TextField()
+    img_name = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self) -> str:
         return (f"({self.course.name})-{self.summary}")[:50]
@@ -24,8 +26,7 @@ class SubTopic(models.Model):
      summary = models.TextField()
      quizzes = models.JSONField(null=True, blank=True)
      codes = models.JSONField(null=True, blank=True)
-     img_name = models.CharField(max_length=64, null=True, blank=True)   
-
+        
      def __str__(self) -> str:
         return (f"{self.title}")[:100]
 

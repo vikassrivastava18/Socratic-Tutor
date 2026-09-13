@@ -4,11 +4,9 @@ from typing import cast
 from rest_framework import  status
 from rest_framework.response import Response
 
-from .schemas import QuizSchema
 from .open_ai import llm
 
 load_dotenv(override=True)
-
 
 
 def get_hints(results):
