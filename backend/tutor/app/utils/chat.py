@@ -59,15 +59,10 @@ class TutorGraph:
 
         return builder.compile(checkpointer=self.checkpointer)
 
-    def invoke(
-        self,
-        query: str,
-        context: Optional[str] = None,
-        thread_id: str = "default",
-    ) -> dict:
+    def invoke(self, query: str, context: str,thread_id: str = "default") -> dict:
         return self.graph.invoke(
             {"query": query,
-            "context": context,
+             "context": context,
             },
             config={
                 "configurable": {

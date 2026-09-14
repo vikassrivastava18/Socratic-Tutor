@@ -17,6 +17,7 @@ from .utils.open_ai import llm
 
 
 def _call_llm(prompt):
+	# Keep the language-model call behind a small helper.
 	return llm.invoke(prompt)
 
 
@@ -32,6 +33,7 @@ class TopicDetailView(generics.RetrieveAPIView):
 	def retrieve(self, request, *args, **kwargs):
 		instance = self.get_object()
 		data = self.get_serializer(instance).data
+		# Expose the first lesson so clients can begin the topic immediately.
 		first_subtopic = (
 			SubTopic.objects
 			.filter(topic=instance)
@@ -50,6 +52,7 @@ class SubTopicDetailView(generics.RetrieveAPIView):
 class ChatQueryView(APIView):
 	def post(self, request, subtopic_id):
 		query = request.data.get('query')
+		# Reject empty prompts before starting the tutor graph.
 		if not isinstance(query, str) or not query.strip():
 			return Response(
 				{'query': 'This field is required.'},
@@ -59,6 +62,7 @@ class ChatQueryView(APIView):
 		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
 		thread_id = request.data.get('thread_id') or str(uuid4())
 		topic_graph = TutorGraph(subtopic.title)
+		# Reuse the caller's thread when provided so the conversation retains context.
 		result = topic_graph.invoke(
 			query=query,
 			context=subtopic.summary,
@@ -75,6 +79,7 @@ class CodingProblemListView(APIView):
 
 	def get(self, request, subtopic_id):
 		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
+		# Find the next subtopic in the same topic for sequential lesson navigation.
 		next_subtopic = (
 			SubTopic.objects
 			.filter(topic=subtopic.topic, pk__gt=subtopic.pk)
@@ -98,6 +103,7 @@ class QuizEvaluationView(APIView):
         subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
         answers = request.data.get('answers')
 
+		# Quiz answers must be an object keyed by question identifier.
         if not isinstance(answers, dict):
             return Response(
                 {'answers': 'This field must be an object.'},

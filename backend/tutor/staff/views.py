@@ -18,6 +18,7 @@ class CodingProblemCreateView(APIView):
     # permission_classes = (IsAdminUser,)
 
     def post(self, request, subtopic_id):
+        # Generate coding problems from the selected subtopic and persist them.
         subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
         codes = create_coding_problems(subtopic.summary).model_dump()
         SubTopic.objects.filter(pk=subtopic.pk).update(codes=codes)
@@ -28,6 +29,7 @@ class QuizCreateView(APIView):
     # permission_classes = (IsAdminUser,)
 
     def post(self, request, subtopic_id):
+        # Build quiz content from the selected subtopic and return it to the client.
         subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
         quizzes = create_quizzes(subtopic.summary)
         return Response(quizzes.model_dump())
@@ -37,6 +39,7 @@ class CreateSubTopicView(APIView):
     # permission_classes = (IsAdminUser,)
 
     def post(self, request, topic_id):
+        # Refresh the topic summary before generating its learning sequence.
         topic = get_object_or_404(Topic, pk=topic_id)
 
         summary = create_topic_summary(topic.content)
@@ -47,6 +50,7 @@ class CreateSubTopicView(APIView):
         subtopics = generated_subtopics.get("subtopics", [])
 
         for item in subtopics:
+            # Enrich every generated lesson with practice problems and quizzes.
             content = item["summary"]
             title = item["title"]
             item["codes"] = create_coding_problems(content).model_dump()
