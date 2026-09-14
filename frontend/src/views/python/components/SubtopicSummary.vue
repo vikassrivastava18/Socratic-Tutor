@@ -1,4 +1,5 @@
 <template>
+  <!-- Show the subtopic summary and chat form. -->
   <div class="container summary-container">
     <h3 class="p-2">{{ topic.title }} 
       <router-link class="btn btn-danger" 
@@ -31,7 +32,7 @@
       </button>
     </form>
 
-    <!-- Modal -->
+    <!-- Chat history modal. -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
@@ -103,6 +104,7 @@ const summaryPages = computed(() => {
 });
 
 async function sendQuery() {
+  // Send the user's question and add the response to the chat history.
   const query = userQuery.value.trim();
 
   if (!query || isLoading.value) {
@@ -155,6 +157,7 @@ async function sendQuery() {
 }
 
 onMounted(async () => {
+  // Load the selected subtopic summary.
   try {
     const response = await fetch(
       `${baseUrl}/subtopics/${route.params.id}`

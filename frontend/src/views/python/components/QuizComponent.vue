@@ -1,4 +1,5 @@
 <template>
+	<!-- Present quiz questions and collect answers. -->
 	<div class="container my-4">
 		<h3 class="mb-4">Quiz</h3>
 
@@ -9,16 +10,23 @@
 		<form v-else @submit.prevent="submitQuiz">
 
 			<div class="row">
-				<section v-for="section in quizSections" :key="section.key" class="col-md-6 mb-4">
+				<section v-for="section in quizSections" 
+					:key="section.key" 
+					class="col-md-6 mb-4">
 					<h4>{{ section.title }}</h4>
-					<div v-for="(quiz, index) in section.items" :key="quiz.id ?? `${section.key}-${index}`"
+					<div v-for="(quiz, index) in section.items" 
+						:key="quiz.id ?? `${section.key}-${index}`"
 						class="card mb-3 p-3">
 						<p><strong>{{ index + 1 }}. {{ quiz.question }}</strong></p>
 
 						<template v-if="section.key === 'mcq'">
 							<div v-for="option in quiz.options" :key="option" class="form-check">
-								<input :id="`${section.key}-${index}-${option}`" v-model="responses[section.key][index]"
-									class="form-check-input" type="radio" :name="`${section.key}-${index}`"
+								<input 
+									:id="`${section.key}-${index}-${option}`" 
+									v-model="responses[section.key][index]"
+									class="form-check-input" 
+									type="radio" 
+									:name="`${section.key}-${index}`"
 									:value="option" />
 								<label class="form-check-label" :for="`${section.key}-${index}-${option}`">
 									{{ option }}
@@ -28,8 +36,12 @@
 
 						<template v-else-if="section.key === 'true_false'">
 							<div v-for="option in [true, false]" :key="String(option)" class="form-check">
-								<input :id="`${section.key}-${index}-${option}`" v-model="responses[section.key][index]"
-									class="form-check-input" type="radio" :name="`${section.key}-${index}`"
+								<input 
+									:id="`${section.key}-${index}-${option}`" 
+									v-model="responses[section.key][index]"
+									class="form-check-input" 
+									type="radio" 
+									:name="`${section.key}-${index}`"
 									:value="option" />
 								<label class="form-check-label" :for="`${section.key}-${index}-${option}`">
 									{{ option ? 'True' : 'False' }}
@@ -50,7 +62,10 @@
 
 		<div v-if="evaluation" class="alert alert-info mt-4 d-flex align-items-center" role="status">
 			Submitted, your score: {{ evaluationMessage }} 
-			<router-link v-if="proceed" class="btn btn-danger ms-auto" :to="`/python/subtopic/${route.params.id}/code`">
+			<router-link 
+				v-if="proceed" 
+				class="btn btn-danger ms-auto" 
+				:to="`/python/subtopic/${route.params.id}/code`">
 				Continue to code
 			</router-link>
 			<span v-else class="text-danger"> &nbsp;&nbsp;(Minimum score required: 7/10)</span>
@@ -92,6 +107,7 @@ function normalizeQuizResponse(data) {
 }
 
 async function loadQuizzes() {
+	// Load quiz questions for the current subtopic.
 	try {
 		const response = await fetch(`${baseUrl}/subtopics/${route.params.id}/quizzes`);
 		if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
@@ -105,6 +121,7 @@ async function loadQuizzes() {
 }
 
 async function submitQuiz() {
+	// Submit answers and show the evaluation result.
 	isSubmitting.value = true;
 	errorMessage.value = "";
 	evaluation.value = null;

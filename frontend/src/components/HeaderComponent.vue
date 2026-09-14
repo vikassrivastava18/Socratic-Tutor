@@ -1,4 +1,5 @@
 <template>
+    <!-- Application header and logo. -->
     <div class="head-section text-center" id="headerContainer">
         <div class="logobrand">
             <h2 style="display: inline;">

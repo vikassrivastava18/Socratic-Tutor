@@ -1,4 +1,5 @@
 <template>
+    <!-- Display available Python topics. -->
     <div class="container my-2 p-2">
         
         <div class="topics-grid">
@@ -29,6 +30,7 @@ import { baseUrl } from "../../../config";
 const topics = ref([]);
 
 onMounted(async () => {
+    // Load topics when the page opens.
     try {
         const response = await fetch(`${baseUrl}/topics/`);
 

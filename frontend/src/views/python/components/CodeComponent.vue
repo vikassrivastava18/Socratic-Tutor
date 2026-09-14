@@ -1,4 +1,5 @@
 <template>
+  <!-- Coding exercise layout. -->
   <div class="container">
     <div class="row g-4 coding-layout">
       <!-- Left column: question -->
@@ -114,6 +115,7 @@ const hasNextProblem = computed(
 );
 
 function loadProblem(problem) {
+  // Populate the editor with the selected problem.
   question.value = problem.problem;
   code.value = problem.code;
   expectedAnswer.value = String(problem.answer);
@@ -159,6 +161,7 @@ function loadNextProblem() {
 }
 
 async function executeCode() {
+  // Run the submitted Python code and display its output.
   loading.value = true;
   output.value = "";
 

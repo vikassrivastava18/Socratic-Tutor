@@ -1,8 +1,12 @@
 <template>
+  <!-- Show the selected topic summary and session link. -->
   <div class="container summary-container">
     <h3 class="p-2">{{ topic.title }}</h3>
 
-    <div v-if="topic.summary" class="topic-summary my-2 p-2" v-html="renderedSummary"></div>
+    <div v-if="topic.summary" 
+      class="topic-summary my-2 p-2" 
+      v-html="renderedSummary">
+    </div>
 
     <p v-else>Loading summary...</p>
 
@@ -33,6 +37,7 @@ const renderedSummary = computed(() =>
 );
 
 onMounted(async () => {
+  // Load the selected topic from the API.
   try {
     const response = await fetch(
       `${baseUrl}/topics/${route.params.id}`

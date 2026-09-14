@@ -1,5 +1,6 @@
 <template>
 
+  <!-- Introductory content for the tutor application. -->
   <section class="py-5">
     <div class="container">
       <div class="row g-5">

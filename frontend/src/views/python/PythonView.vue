@@ -1,6 +1,6 @@
 <template>
 
-<!-- <PythonComponent /> -->
+<!-- Python pages are rendered through the nested router view. -->
 <div class="container">
     <RouterView />        
 </div>
