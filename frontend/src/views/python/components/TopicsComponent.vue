@@ -3,7 +3,7 @@
         
         <div class="topics-grid">
             <div v-for="topic in topics" :key="topic.id">
-            <div class="card me-4" style="width: 18rem; height: 22rem;">
+            <div class="card me-4" style="width: 18rem; ">
                 <router-link 
                     class="topic-link" 
                     :to="{ name: 'topic-summary', params: { id: topic.id } }">

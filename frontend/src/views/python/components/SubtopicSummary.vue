@@ -18,21 +18,6 @@
     </div>
     <p v-else>Loading summary...</p>
 
-    <div class="chat-messages my-3">
-      <div
-        v-for="(message, index) in messages"
-        :key="index"
-        class="chat-message mb-3"
-      >
-        <div class="query p-2">
-          <strong>You</strong>
-          <div>{{ message.query }}</div>
-        </div>
-        <img src="../../../assets/socrates_blink_less.gif" width="25" alt="">
-        <div class="response p-2" v-html="message.renderedResponse"></div>
-      </div>
-    </div>
-
     <form class="input-group mt-auto" @submit.prevent="sendQuery">
       <input
         type="text"
@@ -46,6 +31,42 @@
       </button>
     </form>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Chat messages</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="chat-messages my-3">
+              <div
+                v-for="(message, index) in messages"
+                :key="index"
+                class="chat-message mb-3"
+              >
+                <div class="query p-2">
+                  <strong>You</strong>
+                  <div>{{ message.query }}</div>
+                </div>
+                <img src="../../../assets/socrates_blink_less.gif" width="25" alt="">
+                <div class="response p-2" v-html="message.renderedResponse"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+
     <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
 
     <div class="summary-actions mt-4 mb-3">
@@ -58,6 +79,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { marked } from "marked";
+import { Modal } from "bootstrap";
 import { baseUrl } from "../../../config";
 
 const route = useRoute();
@@ -120,7 +142,10 @@ async function sendQuery() {
       query,
       renderedResponse: marked.parse(String(responseText)),
     });
+    const modalElement = document.getElementById("exampleModal");
+		Modal.getOrCreateInstance(modalElement).show();
     userQuery.value = "";
+
   } catch (error) {
     errorMessage.value = "Unable to get a response. Please try again.";
     console.error("Failed to send subtopic query:", error);
@@ -151,19 +176,6 @@ onMounted(async () => {
   line-height: 1.7;
 }
 
-.summary-pages {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.summary-page {
-  min-height: 360px;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-  background: #fff;
-}
-
 @media (max-width: 768px) {
   .summary-pages {
     grid-template-columns: 1fr;
@@ -174,11 +186,6 @@ h3 {
   color: maroon;
 }
 
-.summary-container {
-  /* min-height: 75vh; */
-  display: flex;
-  flex-direction: column;
-}
 .summary-actions {
     text-align: center;
 }
@@ -189,5 +196,48 @@ input {
 
 #continueBtn {
   float: right;
+}
+
+.summary-container {
+  height: 75vh;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.summary-pages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-height: 65%;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.summary-page {
+  min-height: 360px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  background: #fff;
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.input-group {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  padding-top: 0.75rem;
+  background: white;
+  z-index: 1;
+}
+.modal-dialog {
+	max-width: 900px;
+	width: min(90vw, 900px);
 }
 </style>
