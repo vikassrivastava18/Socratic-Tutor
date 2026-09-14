@@ -169,4 +169,9 @@ h3 {
 	max-width: 900px;
 	width: min(90vw, 900px);
 }
+
+.container {
+	max-height: 70vh;
+	overflow-y: auto;
+}
 </style>
