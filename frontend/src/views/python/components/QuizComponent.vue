@@ -49,46 +49,23 @@
 		</form>
 
 		<div v-if="evaluation" class="alert alert-info mt-4 d-flex align-items-center" role="status">
-			Submitted, your score: {{ evaluationMessage }}
-			<router-link v-if="!hints" class="btn btn-danger ms-auto" :to="`/python/subtopic/${route.params.id}/code`">
+			Submitted, your score: {{ evaluationMessage }} 
+			<router-link v-if="proceed" class="btn btn-danger ms-auto" :to="`/python/subtopic/${route.params.id}/code`">
 				Continue to code
 			</router-link>
+			<span v-else class="text-danger"> &nbsp;&nbsp;(Minimum score required: 7/10)</span>
 		</div>
 	</div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content rounded-4 shadow">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Take hints to complete and proceed</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
 
-				<div class="modal-body">
-					<div v-html="renderedHints"></div>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-						Close
-					</button>
-			
-				</div>
-			</div>
-		</div>
-	</div>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import { baseUrl } from "../../../config";
-import { Modal } from "bootstrap";
-import { marked } from "marked";
 
-const hints = ref("");
-const renderedHints = computed(() => marked.parse(hints.value || ""));
+const proceed = ref(false);
 const route = useRoute();
 const quizzes = ref({});
 const isLoading = ref(true);
@@ -131,7 +108,7 @@ async function submitQuiz() {
 	isSubmitting.value = true;
 	errorMessage.value = "";
 	evaluation.value = null;
-	hints.value = null;
+	proceed.value = false;
 	try {
 		const response = await fetch(`${baseUrl}/subtopics/${route.params.id}/quizzes/evaluate/`, {
 			method: "POST",
@@ -141,13 +118,12 @@ async function submitQuiz() {
 		if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
 
 		const result = await response.json();
+		console.log("Result: ", result);
+		
 		evaluation.value = result;
 
-		if (result.hints) {
-			hints.value = result.hints;
-
-			const modalElement = document.getElementById("exampleModal");
-			Modal.getOrCreateInstance(modalElement).show();
+		if (result.proceed) {						
+			proceed.value = true;
 		}
 	} catch (error) {
 		errorMessage.value = "Unable to submit your answers. Please try again.";

@@ -106,7 +106,6 @@ class QuizEvaluationView(APIView):
 
         results, score, total = evaulate_response(subtopic, answers)
         percentage = round(score / total * 100, 2) if total else 0
-
         response = {
             'score': score,
             'total': total,
@@ -114,22 +113,9 @@ class QuizEvaluationView(APIView):
             'results': results,
         }
 
-        if percentage < 70:
-            hints = []
-
-            def collect_hints(value):
-                if isinstance(value, dict):
-                    if value.get('hint'):
-                        hints.append(value['hint'])
-
-                    for nested_value in value.values():
-                        collect_hints(nested_value)
-
-                elif isinstance(value, list):
-                    for item in value:
-                        collect_hints(item)
-
-            collect_hints(subtopic.quizzes or {})
-            response['hints'] = ''.join(f'<p>{hint}</p>' for hint in hints)
+        if percentage < 70:			
+            response["proceed"] = False
+        else:
+            response["proceed"] = True
 
         return Response(response)
