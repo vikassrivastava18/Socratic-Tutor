@@ -15,7 +15,7 @@ from .utils import (
 
 
 class CodingProblemCreateView(APIView):
-    # permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
 
     def post(self, request, subtopic_id):
         # Generate coding problems from the selected subtopic and persist them.
@@ -26,7 +26,7 @@ class CodingProblemCreateView(APIView):
 
 
 class QuizCreateView(APIView):
-    # permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
 
     def post(self, request, subtopic_id):
         # Build quiz content from the selected subtopic and return it to the client.
@@ -36,7 +36,7 @@ class QuizCreateView(APIView):
 
 
 class CreateSubTopicView(APIView):
-    # permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
 
     def post(self, request, topic_id):
         # Refresh the topic summary before generating its learning sequence.

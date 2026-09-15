@@ -33,7 +33,7 @@ class TopicDetailView(generics.RetrieveAPIView):
 	def retrieve(self, request, *args, **kwargs):
 		instance = self.get_object()
 		data = self.get_serializer(instance).data
-		# Expose the first lesson so clients can begin the topic immediately.
+		# Expose the first subtopic so clients can begin the topic immediately.
 		first_subtopic = (
 			SubTopic.objects
 			.filter(topic=instance)
