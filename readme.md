@@ -31,7 +31,6 @@ docker-compose build
 docker-compose up
 ```
 
-
 ## Key runtime pieces
 
 - Authentication
