@@ -55,21 +55,23 @@
 				</section>
 			</div>
 
-			<button class="btn btn-primary" type="submit" :disabled="isSubmitting">
-				{{ isSubmitting ? 'Submitting...' : 'Submit Answers' }}
-			</button>
-		</form>
+			<div class="d-flex align-items-center flex-wrap gap-3 mt-3">
+				<button class="btn btn-primary" type="submit" :disabled="isSubmitting">
+					{{ isSubmitting ? 'Submitting...' : 'Submit Answers' }}
+				</button>
 
-		<div v-if="evaluation" class="alert alert-info mt-4 d-flex align-items-center" role="status">
-			Submitted, your score: {{ evaluationMessage }} 
-			<router-link 
-				v-if="proceed" 
-				class="btn btn-danger ms-auto" 
-				:to="`/python/subtopic/${route.params.id}/code`">
-				Continue to code
-			</router-link>
-			<span v-else class="text-danger"> &nbsp;&nbsp;(Minimum score required: 7/10)</span>
-		</div>
+				<div v-if="evaluation" class="alert alert-info mb-0 d-flex align-items-center" role="status">
+					Submitted, your score: {{ evaluationMessage }} 
+					<router-link 
+						v-if="proceed" 
+						class="btn btn-danger ms-auto" 
+						:to="`/python/subtopic/${route.params.id}/code`">
+						Continue to code
+					</router-link>
+					<span v-else class="text-danger"> &nbsp;&nbsp;(Minimum score required: 7/10)</span>
+				</div>
+			</div>
+		</form>
 	</div>
 
 
