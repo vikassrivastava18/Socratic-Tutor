@@ -15,7 +15,10 @@
        <router-link 
         :to="{ name: 'subtopic-summary', params: { id: topic.first_subtopic_id } }">
         <button class="btn btn-primary">
-          <img src="../../../assets/socrates_blink_less.gif" width="25" alt="">
+          <img 
+            src="../../../assets/socrates_blink_less.gif" 
+            width="25" 
+            alt="">
           Start Session 
         </button>         
       </router-link>   

@@ -26,6 +26,7 @@
         placeholder="Ask your query"
         v-model="userQuery"
         :disabled="isLoading"
+        spellcheck="false"
       />
       <button type="submit" class="btn btn-primary" :disabled="isLoading || !userQuery.trim()">
         Submit

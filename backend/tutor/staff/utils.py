@@ -32,11 +32,11 @@ def create_topic_summary(content: str):
 
 def create_subtopics(summary: str):
     prompt = f"""
-        Break a topics summary into subtopics (maximum 4). Return title and summary for the subtopics. The summary should be in 
-        markdown syntax.
+    Break a topics summary into subtopics (maximum 4). Return title and summary for the subtopics. The summary should be in 
+    markdown syntax.
 
-        summary {summary}
-        """
+    summary {summary}
+    """
     structures_llm = llm.with_structured_output(SubTopicsSchema)
     messages = [{"role": "system", "content": prompt}]
 
@@ -46,27 +46,27 @@ def create_subtopics(summary: str):
 
 def create_coding_problems(content: str) -> CodeListSchema:
     prompt = f"""
-        You are a code chef. Use the content to create 5 coding problems. 
-        Keep the problem level to be easy for first 3 and medium for remaining two.
-        Use the content provided only. Question must be in markdown syntax.
+    You are a code chef. Use the content to create 5 coding problems. 
+    Keep the problem level to be easy for first 3 and medium for remaining two.
+    Use the content provided only. Question must be in markdown syntax.
 
-        Content: {content}
+    Content: {content}
 
-        Sample (follow strictly!): 
-        Question: Create a class called `Student` that has attributes `name` and `house`. Implement a method `get_info` that returns a string in the format 'Name: <name>, House: <house>'.
+    Sample (follow strictly!): 
+    Question: Create a class called `Student` that has attributes `name` and `house`. Implement a method `get_info` that returns a string in the format 'Name: <name>, House: <house>'.
 
-        class Student:
-            def __init__(self, name, house):
-                self.name = name
-                self.house = house
+    class Student:
+        def __init__(self, name, house):
+            self.name = name
+            self.house = house
 
-            def get_info(self):
-                raise NotImplementedError
+        def get_info(self):
+            raise NotImplementedError
 
-        student = Student('John', 'Gryffindor')
-        print(student.get_info())
+    student = Student('John', 'Gryffindor')
+    print(student.get_info())
 
-        Answer: Name: John, House: Gryffindor
+    Answer: Name: John, House: Gryffindor
     """
     structured_llm = llm.with_structured_output(CodeListSchema)
     messages = [{"role": "system", "content": prompt}]

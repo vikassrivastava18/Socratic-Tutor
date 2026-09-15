@@ -49,7 +49,10 @@
 							</div>
 						</template>
 
-						<input v-else v-model="responses[section.key][index]" class="form-control" type="text"
+						<input v-else 
+							v-model="responses[section.key][index]" 
+							class="form-control" 
+							type="text"
 							placeholder="Enter answer" />
 					</div>
 				</section>
