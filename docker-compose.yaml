@@ -1,36 +1,39 @@
 services:
 
   backend:
-    build: 
-      context: .
-      dockerfile: backend.Dockerfile
+    build:
+      context: ./backend/tutor
+      dockerfile: Dockerfile
 
     ports:
-      - "8000:8000"
+      - "8001:8000"
 
     depends_on:
       - db
 
     environment:
-      DATABASE_URL: postgresql://postgres:hello2020@db:5432/testdb
+      DATABASE_URL: postgresql://postgres:hello2020@db:5432/tutor
+      POSTGRES_DB: tutor
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hello2020
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
 
     volumes:
-      - .:/app
+      - ./backend/tutor:/app
 
   db:
-    image: postgres:16
-
-    container_name: postgres_new
+    image: postgres:17
 
     restart: always
 
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: hello2020
-      POSTGRES_DB: testdb
+      POSTGRES_DB: tutor
 
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
